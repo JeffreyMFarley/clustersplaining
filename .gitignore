@@ -1,0 +1,9 @@
+# OS Files
+.DS_Store
+
+# Python Build Artifacts
+__pycache__
+*.pyc
+
+# Output files
+cel/*.html
