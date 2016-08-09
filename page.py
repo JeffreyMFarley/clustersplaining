@@ -39,20 +39,30 @@ class Page(object):
     # Write helpers
     # -------------------------------------------------------------------------
 
+    def addCentroid(self, sw, txt):
+        circle = '<circle class="centroid" cx="{0}%" cy="{1}%" r="0.75%" />\n'
+        self.handle.write('    ' + circle.format(sw.hue, 101 - sw.light))
+
+        opening = '    <text x="{0}%" y="{1}%"'.format(sw.hue, 101 - sw.light)
+        align = ' dominant-baseline="middle" text-anchor="middle"'
+        style = ' class="centroid"'
+        closing = '>{0}</text>\n'.format(txt)
+        self.handle.write(opening + align + style + closing)
+
     def addClustered(self, rgb, sw):
         s = '    <circle style="fill:{0};" cx="{1}%" cy="{2}%" r="0.75%" />\n'
         rgbStr = 'rgb({0},{1},{2})'.format(*rgb)
         self.handle.write(s.format(rgbStr, sw.hue, 101 - sw.light))
 
+    def addLegend(self, rgb, name):
+        rgbStr = 'rgb({0},{1},{2})'.format(*rgb)
+        s = legend.format(rgbStr, name)
+        self.handle.write(s)
+
     def addSwatch(self, sw):
         s = '    <circle style="fill:{0};" cx="{1}%" cy="{2}%" r="0.75%" />\n'
         rgbStr = 'rgb({0},{1},{2})'.format(sw.red, sw.green, sw.blue)
         self.handle.write(s.format(rgbStr, sw.hue, 101 - sw.light))
-
-    def addLegend(self, name, rgb):
-        rgbStr = 'rgb({0},{1},{2})'.format(*rgb)
-        s = legend.format(rgbStr, name)
-        self.handle.write(s)
 
     # -------------------------------------------------------------------------
     # Main function

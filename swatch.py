@@ -1,7 +1,7 @@
 from data import swatch_list
 
 
-class Swatch():
+class Swatch(object):
     @classmethod
     def acquire(cls):
         for row in swatch_list:

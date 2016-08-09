@@ -9,6 +9,17 @@ svg {
     border: solid 1px black;
 }
 
+svg text.centroid {
+    font-size: 16pt;
+    stroke-width: 0;
+}
+
+svg circle.centroid {
+    fill: transparent;
+    stroke: black; 
+    stroke-width: 1;
+}
+
 .legendPanel {
     width: 18%;
     height: 95%;

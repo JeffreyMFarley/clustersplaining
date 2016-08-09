@@ -137,7 +137,7 @@ def run(args):
         MU0 = selectSatisfactoryCentroids(vectors, args.k, distance_fn)
 
     print('Find the clusters')
-    MU, clusterIndex, _ = lloyds_algorithm(vectors, MU0, distance_fn)
+    MU, clusterIndex, step = lloyds_algorithm(vectors, MU0, distance_fn)
 
     print('Process the centroids')
     palette = list(map(toPalette, MU))
