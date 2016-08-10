@@ -1,11 +1,16 @@
 from data import swatch_list
+from operator import attrgetter
 
 
 class Swatch(object):
-    @classmethod
-    def acquire(cls):
+    @staticmethod
+    def acquire():
         for row in swatch_list:
             yield Swatch(row[0], row[1])
+
+    @staticmethod
+    def orderedList():
+        return sorted(Swatch.acquire(), key=attrgetter('saturation'))
 
     def __init__(self, rgb, name=''):
         import colorsys

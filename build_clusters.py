@@ -22,7 +22,7 @@ def toRgb(vector):
 # -----------------------------------------------------------------------------
 
 
-def selectRandomCentroids(vectors, k, distance_fn):
+def selectRandomCentroids(vectors, k):
     import random
     return random.sample(set(vectors), k)
 
@@ -101,13 +101,12 @@ def buildTitle(args):
 def run(args):
     from operator import attrgetter
     from display_clusters import Clusters
+    from hew import KDTree, distance_fn
     from hew.clusters.k_means import lloyds_algorithm
-    from hew.structures.kd_tree import KDTree
-    from hew.structures.vector import distance_euclid_squared
     from hew.structures.vector import extractFloatVectors
 
-    # build a dictionary of swatches
-    swatches = sorted(Swatch.acquire(), key=attrgetter('saturation'))
+    # get the swatches
+    swatches = Swatch.orderedList()
 
     # extract the vectors
     if args.hsl:
@@ -130,14 +129,13 @@ def run(args):
         toPalette = rgbToSwatch
 
     print('Select initial centroids')
-    distance_fn = distance_euclid_squared
     if args.random:
-        MU0 = selectRandomCentroids(vectors, args.k, distance_fn)
+        MU0 = selectRandomCentroids(vectors, args.k)
     else:
         MU0 = selectSatisfactoryCentroids(vectors, args.k, distance_fn)
 
     print('Find the clusters')
-    MU, clusterIndex, step = lloyds_algorithm(vectors, MU0, distance_fn)
+    MU, clusterIndex, _ = lloyds_algorithm(vectors, MU0, distance_fn)
 
     print('Process the centroids')
     palette = list(map(toPalette, MU))

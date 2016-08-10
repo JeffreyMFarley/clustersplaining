@@ -26,6 +26,13 @@ class Page(object):
         pass
 
     # -------------------------------------------------------------------------
+    # Projection
+    # -------------------------------------------------------------------------
+
+    def projection(self, sw):
+        return sw.hue, 101 - sw.light
+
+    # -------------------------------------------------------------------------
     # Overrideable Callbacks
     # -------------------------------------------------------------------------
 
@@ -41,9 +48,9 @@ class Page(object):
 
     def addCentroid(self, sw, txt):
         circle = '<circle class="centroid" cx="{0}%" cy="{1}%" r="0.75%" />\n'
-        self.handle.write('    ' + circle.format(sw.hue, 101 - sw.light))
+        self.handle.write('    ' + circle.format(*self.projection(sw)))
 
-        opening = '    <text x="{0}%" y="{1}%"'.format(sw.hue, 101 - sw.light)
+        opening = '    <text x="{0}%" y="{1}%"'.format(*self.projection(sw))
         align = ' dominant-baseline="middle" text-anchor="middle"'
         style = ' class="centroid"'
         closing = '>{0}</text>\n'.format(txt)
@@ -52,7 +59,7 @@ class Page(object):
     def addClustered(self, rgb, sw):
         s = '    <circle style="fill:{0};" cx="{1}%" cy="{2}%" r="0.75%" />\n'
         rgbStr = 'rgb({0},{1},{2})'.format(*rgb)
-        self.handle.write(s.format(rgbStr, sw.hue, 101 - sw.light))
+        self.handle.write(s.format(rgbStr, *self.projection(sw)))
 
     def addLegend(self, rgb, name):
         rgbStr = 'rgb({0},{1},{2})'.format(*rgb)
@@ -62,7 +69,7 @@ class Page(object):
     def addSwatch(self, sw):
         s = '    <circle style="fill:{0};" cx="{1}%" cy="{2}%" r="0.75%" />\n'
         rgbStr = 'rgb({0},{1},{2})'.format(sw.red, sw.green, sw.blue)
-        self.handle.write(s.format(rgbStr, sw.hue, 101 - sw.light))
+        self.handle.write(s.format(rgbStr, *self.projection(sw)))
 
     # -------------------------------------------------------------------------
     # Main function
