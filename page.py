@@ -29,8 +29,32 @@ class Page(object):
     # Projection
     # -------------------------------------------------------------------------
 
+    # / x(t) \ = /  cos(p)  sin(p) \ / a cos(t) \
+    # \ y(t) /   \ -sin(p)  cos(p) / \ b sin(t) /
+    #which makes the projection onto the x-axis equal to
+    # x(t) = a cos(p) cos(t) + b sin(p) sin(t),
+    # and y(t) analogously.
+    # y(t) = -a sin(p) cos(t) + b cos(p) sin(t)
+
     def projection(self, sw):
-        return sw.hue, 101 - sw.light
+        from math import cos, sin, pi
+
+        two_radians = 6.28318530718
+        pi_over_2 = 1.57079632679
+
+        b = sw.saturation / 2.0
+        a = sw.light / 2.0
+        p = (sw.hue / 100.0) * two_radians
+
+        t = pi + pi / 6.0
+
+        # x = a * math.cos(p)
+        # y = a * math.sin(p)
+
+        x = a * cos(p) * cos(t) + b * sin(p) * sin(t)
+        y = -1.0 * a * sin(p) * cos(t) + b * cos(p) * sin(t)
+
+        return x + 50, y + 50
 
     # -------------------------------------------------------------------------
     # Overrideable Callbacks
@@ -80,7 +104,8 @@ class Page(object):
             self.handle = f
 
             f.write(starting.format(title))
-            f.write('  <svg>\n')
+            f.write('  <svg viewBox="0 0 600 600" width="100%" height="100%" '
+                    'preserveAspectRatio="xMidYMid meet">\n')
             self.onCanvas()
             f.write('  </svg>\n')
             f.write('  <div class="legendPanel">\n')
