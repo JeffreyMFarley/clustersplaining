@@ -179,7 +179,9 @@ def buildArgParser():
 
 
 if __name__ == '__main__':
+    import sys
     parser = buildArgParser()
     args = parser.parse_args()
 
+    print('==> ', ' '.join(sys.argv))
     run(args)

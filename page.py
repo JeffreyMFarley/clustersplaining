@@ -39,14 +39,15 @@ class Page(object):
     def projection(self, sw):
         from math import cos, sin, pi
 
-        two_radians = 6.28318530718
-        pi_over_2 = 1.57079632679
+        two_pi = 2.0 * pi
+        pi_over_2 = pi / 2.0
 
         b = sw.saturation / 2.0
         a = sw.light / 2.0
-        p = (sw.hue / 100.0) * two_radians
+        p = (sw.hue / 100.0) * two_pi
+        p += pi_over_2
 
-        t = pi + pi / 6.0
+        t = 0
 
         # x = a * math.cos(p)
         # y = a * math.sin(p)

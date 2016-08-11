@@ -10,7 +10,7 @@ class Swatch(object):
 
     @staticmethod
     def orderedList():
-        return sorted(Swatch.acquire(), key=attrgetter('light'), reverse=True)
+        return sorted(Swatch.acquire(), key=attrgetter('saturation'))
 
     def __init__(self, rgb, name=''):
         import colorsys
